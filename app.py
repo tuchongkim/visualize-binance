@@ -29,7 +29,7 @@ def history():
     # { time: '2018-10-19', open: 180.34, high: 180.99, low: 178.57, close: 179.85 }
     for data in candlesticks:
         candlestick = {
-            "time": data[0] / 1000, 
+            "time": (data[0] / 1000) + (9 * 3600), 
             "open": data[1], 
             "high": data[2], 
             "low": data[3], 

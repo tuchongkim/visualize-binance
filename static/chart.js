@@ -1,49 +1,64 @@
+const TickMarkType = window.LightweightCharts.TickMarkType;
+const locale = navigator.language;
+
 var container = document.getElementById('chart');
 
 // lightweight 차트를 생성 (기본적인 구조 설정)
 var chart = LightweightCharts.createChart(container, {
     width: container.offsetWidth,
     height: 500,
-    layout: {
-        background: {
-            type: 'solid',
-            color: '#000000',
-        },
-        textColor: 'rgba(255, 255, 255, 0.9)',
-    },
-    grid: {
-        vertLines: {
-            color: 'rgba(197, 203, 206, 0.5)',
-        },
-        horzLines: {
-            color: 'rgba(197, 203, 206, 0.5)',
-        },
+	layout: {
+		background: { color: '#222' },
+		textColor: '#DDD',
+	},
+	grid: {
+		vertLines: { color: '#444' },
+		horzLines: { color: '#444' },
     },
     crosshair: {
         mode: LightweightCharts.CrosshairMode.Normal,
+        vertLine: {
+            color: '#9B7DFF',
+            labelBackgroundColor: '#9B7DFF',
+        },
+        horzLine: {
+            color: '#9B7DFF',
+            labelBackgroundColor: '#9B7DFF',
+        },
     },
     rightPriceScale: {
-        borderColor: 'rgba(197, 203, 206, 0.8)',
+		borderColor: '#71649C',
     },
     timeScale: {
-        borderColor: 'rgba(197, 203, 206, 0.8)',
+		borderColor: '#71649C',
+		timeVisible: true,
+        rightOffset: 10,
+    },
+    localization: { // crosshair에서 예쁘게 나타내기
+        timeFormatter: (time) => {
+            const date = new Date((time - (9 * 3600)) * 1000);
+
+            const dateFormatter = new Intl.DateTimeFormat(navigator.language, {
+                hour: "numeric",
+                minute: "numeric",
+                month: "short",
+                hour12: false,
+                day: "numeric",
+                year: "2-digit",
+            });
+            
+            return dateFormatter.format(date);
+        },
     },
 });
 
-// 비트코인 1분봉 차트 그리기
-var candleSeries = chart.addCandlestickSeries({
-    upColor: '#00ff00',
-    downColor: '#ff0000',
-    borderDownColor: '#ff0000',
-    borderUpColor: '#00ff00',
-    wickDownColor: '#ff0000',
-    wickUpColor: '#00ff00',
-});
+// 비트코인 1분봉 차트 그리기 (default colors)
+var candleSeries = chart.addCandlestickSeries();
 
 // 창의 크기가 변했을 때 실행할 resize 함수
 function updateChartSize() {
     chart.resize(container.offsetWidth, 500);
-}
+};
 
 // 과거 데이터를 불러와서 차트에 적용
 fetch("http://127.0.0.1:5000/history")
@@ -61,7 +76,7 @@ binanceSocket.onmessage = function (event) {
     var candlestick = message.k;
 
     candleSeries.update({
-        time: candlestick.t / 1000,
+        time: (candlestick.t / 1000) + (9 * 3600),
         open: candlestick.o,
         high: candlestick.h,
         low: candlestick.l,
