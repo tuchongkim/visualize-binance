@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <title>BinanceView</title>
+        <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+    </head>
+
+    <body>
+        <h2>{{ title }}</h2>
+
+        <div id="kline"></div>
+
+        <div id="chart"></div>
+
+        <script src="{{ url_for('static', filename='chart.js') }}"></script>
+
+        <!-- <h3>pnlChart</h3>
+        
+        <div id="pnlChart"></div>
+
+        <script src="{{ url_for('static', filename='pnlChart.js') }}"></script> -->
+
+        <div id="my_balances">
+            <h2>Balances</h2>
+
+            <table>
+                {% for balance in my_balances %}
+                <tr>
+                    <td>
+                        {{ balance['asset'] }}
+                    </td>
+                    <td>
+                        {{ balance['balance'] }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+
+        </div>
+
+<!-- 
+        <script>
+            // var binanceSocket = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@kline_5m");
+
+            var klineDiv = document.getElementById('kline')
+
+            /*
+            console.log(binanceSocket)
+            binanceSocket.onmessage = function (event) {
+                console.log(event.data)
+
+                var messageObject = JSON.parse(event.data)
+
+                klineDiv.append(messageObject.k)
+            };
+            */
+        </script> -->
+    </body>
+</html>
