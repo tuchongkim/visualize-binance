@@ -1,12 +1,24 @@
-# Visualizeing Binance Data
+# Visualizing Binance Data
 
 ## Step1
 
 ### Install Dependencies
 
-wss://stream.binance.com:9443/ws/btcusdt@kline_5m
-
-< {"e":"kline","E":1700129387886,"s":"BTCUSDT","k":{"t":1700129100000,"T":1700129399999,"s":"BTCUSDT","i":"5m","f":3283044084,"L":3283046812,"o":"37371.38000000","c":"37374.00000000","h":"37374.00000000","l":"37344.21000000","v":"58.56551000","n":2729,"x":false,"q":"2187999.63085850","V":"23.64050000","Q":"883224.09923990","B":"0"}}
-
-1. binance API
+1. python-binance
 2. node.js
+3. flask
+
+## Ste2
+
+### 기능 목록
+
+1. 비트코인 1분봉 차트 실시간으로 그리기
+2. 현재 계정의 total balance와 PnL을 차트 오른쪽에 표시
+3. 현재 가지고 있는 position을 아래쪽에 보여주기
+4. 옵션을 추가해서 open order를 볼 수 있게 하기
+
+## Step3
+
+### Landing page
+
+- 괜찮은 free template을 다운받아서 적용

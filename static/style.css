@@ -1,0 +1,26 @@
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.main-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.chart-container {
+  width: 70%;
+  padding: 20px;
+}
+
+.balance-info {
+  width: 25%;
+  padding: 20px;
+  background-color: #f0f0f0;
+}
+
+.option-box {
+  padding: 20px;
+  background-color: #e0e0e0;
+}

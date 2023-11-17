@@ -16,21 +16,9 @@ pnl_and_time = []
 def index():
     title = 'BinanceView'
 
-    info = client.futures_account_balance()
+    account_info = client.futures_account()
 
-    return render_template('index.html', title=title, my_balances=info)
-
-@app.route('/buy')
-def buy():
-    return 'buy'
-
-@app.route('/sell')
-def sell():
-    return 'sell'
-
-@app.route('/settings')
-def settings():
-    return 'settings'
+    return render_template('index.html', title=title, account_info=account_info)
 
 @app.route('/history')
 def history():

@@ -1,58 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
 <html>
     <head>
+        <meta charset="UTF-8">
         <title>BinanceView</title>
         <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     </head>
 
     <body>
-        <h2>{{ title }}</h2>
+        <h1>{{ title }}</h1>
 
-        <div id="kline"></div>
+        <!-- Landing Page -->
+        <section class="landing-page">
+            <!-- 나중에 구현 -->
+        </section>
 
-        <div id="chart"></div>
+        <!-- Main Content -->
+        <section class="main-content">
+            <div class="chart-container">
+                <!-- Bitcoin 1min Kline Chart -->
+                <div id="chart"></div>
+            </div>
+
+            <div class="balance-info">
+                <!-- Total Balance and PnL-->
+                <p>Total Balance: $200.71</p>
+                <p>PnL: 5.35%</p>
+            </div>
+        </section>
+        
+        <!-- Option Box -->
+        <section class="option-box">
+            <!-- Position information or Open order information -->
+        </section>
 
         <script src="{{ url_for('static', filename='chart.js') }}"></script>
-
-        <!-- <h3>pnlChart</h3>
-        
-        <div id="pnlChart"></div>
-
-        <script src="{{ url_for('static', filename='pnlChart.js') }}"></script> -->
-
-        <div id="my_balances">
-            <h2>Balances</h2>
-
-            <table>
-                {% for balance in my_balances %}
-                <tr>
-                    <td>
-                        {{ balance['asset'] }}
-                    </td>
-                    <td>
-                        {{ balance['balance'] }}
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
-
-        </div>
-
-<!-- 
-        <script>
-            // var binanceSocket = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@kline_5m");
-
-            var klineDiv = document.getElementById('kline')
-
-            /*
-            console.log(binanceSocket)
-            binanceSocket.onmessage = function (event) {
-                console.log(event.data)
-
-                var messageObject = JSON.parse(event.data)
-
-                klineDiv.append(messageObject.k)
-            };
-            */
-        </script> -->
     </body>
 </html>
