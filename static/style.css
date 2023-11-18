@@ -4,7 +4,7 @@ body {
   padding: 0;
   /* Add a background color to match the chart */
   background-color: #222;
-  color: '#DDD',
+  color: #FFFFFF;
 }
 
 .main-content {
@@ -20,10 +20,38 @@ body {
 .balance-info {
   width: 25%;
   padding: 20px;
-  background-color: #f0f0f0;
+  background-color: #363636;
+  color: #FFFFFF;
+}
+
+.balance-label {
+  font-size: 24px;
+  font-weight: bold;
+  color: #d4d4d4; /* Choose your desired color */
+}
+
+/* Style for the balance amount */
+.balance-amount {
+  font-size: 24px;
+  color: #d4d4d4; /* Choose your desired color */
+  /* You can add additional styles like font-weight, font-family, etc. */
+}
+
+.pnl-label {
+  font-size: 20px;
+  font-weight: bold;
+  color: #d4d4d4; /* Choose your desired color */
+}
+
+/* Style for the balance amount */
+.pnl-percentage {
+  font-size: 20px;
+  color: #d4d4d4; /* Choose your desired color */
+  /* You can add additional styles like font-weight, font-family, etc. */
 }
 
 .option-box {
   padding: 20px;
-  background-color: #e0e0e0;
+  background-color: #222;
+  color: #FFFFFF;
 }

@@ -6,7 +6,7 @@ from binance.client import Client
 
 app = Flask(__name__)
 
-client = Client(config.API_KEY, config.API_SECRET)
+client = Client(config.API_KEY, config.API_SECRET, testnet=True)
 
 current_time = time.time()
 
@@ -16,9 +16,7 @@ pnl_and_time = []
 def index():
     title = 'BinanceView'
 
-    account_info = client.futures_account()
-
-    return render_template('index.html', title=title, account_info=account_info)
+    return render_template('index.html', title=title)
 
 @app.route('/history')
 def history():
@@ -40,23 +38,34 @@ def history():
 
     return jsonify(processed_candlesticks)
 
-# @app.route('/pnl')
-# def pnl():
-#     accountInfo = client.futures_account()
+@app.route('/totalBalance')
+def total_balance():
+    while True:
+        try:
+            account_info = client.futures_account()
+            time.sleep(0.25)
+            total_balance = account_info['totalCrossWalletBalance']
+            unrealized_pnl = account_info['totalCrossUnPnl']
+            processed_balance = float(total_balance) + float(unrealized_pnl)
+            result = "{:.3f}".format(processed_balance)
+        except Exception as e:
+            print(e.message)
+            pass
+        return result
 
-#     # { time: "2018-03-28", value: 154 },
+@app.route('/pnl')
+def pnl():
+    while True:
+        try:
+            account_info = client.futures_account()
+            time.sleep(0.25)
+            unrealized_profit = float(account_info['totalUnrealizedProfit'])
+            initial_margin = float(account_info['totalInitialMargin'])
+            roe = unrealized_profit / initial_margin * 100
+            result = "{:.3f}".format(roe)
+        except Exception as e:
+            print(e.message)
+            pass
+        return result
+    
 
-#     for balance in accountInfo['assets']:
-#         if balance['asset'] == 'USDT':
-#             pnl = float(balance['crossUnPnl'])
-#             data = {
-#                 "time" : datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
-#                 "value" : pnl
-#             }
-#             pnl_and_time.append(data)
-
-#     return jsonify(pnl_and_time)
-
-
-# @app.route()
-# def

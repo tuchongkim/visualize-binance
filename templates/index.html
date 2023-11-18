@@ -25,8 +25,17 @@
 
             <div class="balance-info">
                 <!-- Total Balance and PnL-->
-                <p>Total Balance: $200.71</p>
-                <p>PnL: 5.35%</p>
+                <div>
+                    <span id="balance-label" class="balance-label">Total Balance : </span>
+                    <span id="updatedBalance" class="balance-amount">$ 0.00</span>
+                </div>
+                <div>
+                    <span id="pnl-label" class="pnl-label">
+                        Pnl :
+                        <span id="updatedPnl" class="pnl-percentage"></span>
+                        %
+                    </span>
+                </div>
             </div>
         </section>
         
@@ -36,5 +45,7 @@
         </section>
 
         <script src="{{ url_for('static', filename='chart.js') }}"></script>
+        <script src="{{ url_for('static', filename='balance.js') }}"></script>
+        <script src="{{ url_for('static', filename='pnl.js') }}"></script>
     </body>
 </html>

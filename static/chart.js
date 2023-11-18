@@ -38,7 +38,7 @@ var chart = LightweightCharts.createChart(container, {
         timeFormatter: (time) => {
             const date = new Date((time - (9 * 3600)) * 1000);
 
-            const dateFormatter = new Intl.DateTimeFormat(navigator.language, {
+            const dateFormatter = new Intl.DateTimeFormat(locale, {
                 hour: "numeric",
                 minute: "numeric",
                 month: "short",
