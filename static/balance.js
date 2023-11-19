@@ -4,15 +4,9 @@ function updateBalance() {
         .then(response => response.json())
         .then(data => {
             console.log(data)
-            // Update the HTML element with the received data
-            const formattedBalance = new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'USD',
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            }).format(parseFloat(data));
 
             // 실시간 balance 데이터를 html에 적용
+            const formattedBalance = '$' + parseFloat(data).toFixed(2);
             document.getElementById('updatedBalance').innerHTML = formattedBalance;
 
             // recursive하게 updateBalance function을 호출

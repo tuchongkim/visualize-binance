@@ -1,10 +1,177 @@
-body {
-  font-family: 'Arial', sans-serif;
+/*-----------------------------------*\
+  #CUSTOM PROPERTY
+\*-----------------------------------*/
+
+:root {
+
+  /**
+   * COLORS
+   */
+
+  /** Background colors */
+  --bg-wild-blue-yonder: hsla(216, 33%, 68%, 1);
+  --bg-carolina-blue: hsla(199, 89%, 49%, 1);
+  --bg-prussian-blue: hsla(216, 33%, 20%, 1);
+  --bg-oxford-blue: hsla(222, 44%, 13%, 1);
+  --bg-oxford-blue-2: hsla(222, 47%, 11%, 1);
+
+  /** Text colors */
+  --text-white: hsla(0, 0%, 100%, 1);
+  --text-alice-blue: hsla(216, 100%, 95%, 1);
+  --text-columbia-blue: hsla(199, 69%, 84%, 1);
+  --text-wild-blue-yonder: hsla(216, 33%, 68%, 1);
+  --text-carolina-blue: hsla(199, 89%, 49%, 1);
+  --text-shadow-blue: hsla(217, 24%, 59%, 1);
+  --text-slate-gray: hsla(217, 17%, 48%, 1);
+
+  /** Gradient colors */
+  --gradient-1: linear-gradient(90deg, #0ea5ea, #0bd1d1 51%);
+  --gradient-2: linear-gradient(90deg, #b993ec, #c65bf0 51%);
+  --gradient-3: linear-gradient(92.88deg, #93b2ec, #ab93ec 43%);
+
+  /** Border colors */
+  --border-wild-blue-yonder: hsla(216, 33%, 68%, 1);
+  --border-prussian-blue: hsla(216, 33%, 20%, 1);
+  --border-white: hsl(0, 0%, 100%);
+  --border-white-alpha-15: hsla(0, 0%, 100%, 0.15);
+
+  /** Default colors */
+  --white: hsl(0, 0%, 100%, 1);
+  --black: hsl(0, 0%, 0%, 1);
+
+  /**
+   * TYPOGRAPHY
+   */
+
+  /** Font family */
+  --fontFamily-noto_sans: 'Noto Sans', sans-serif;
+
+  /** Font size */
+  --fontSize-1: 2.9rem;
+  --fontSize-2: 2.0rem;
+  --fontSize-3: 1.8rem;
+  --fontSize-4: 1.6rem;
+  --fontSize-5: 1.5rem;
+  --fontSize-6: 1.4rem;
+  --fontSize-7: 1.2rem;
+  --fontSize-8: 1.3rem;
+
+  /** Font weight */
+  --weight-medium: 500;
+  --weight-semiBold: 600;
+  --weight-bold: 700;
+  --weight-extraBold: 800;
+
+  /** Line height */
+  --lineHeight-1: 1.3;
+  --lineHeight-2: 1.5;
+  --lineHeight-4: 1.5;
+
+  /**
+   * BOX SHADOW
+   */
+
+  --shadow-1: 0 8px 20px 0 hsla(0, 0%, 0%, 0.05);
+  --shadow-2: 0px 3px 20px hsla(180, 90%, 43%, 0.2);
+
+  /**
+   * BORDER RADIUS
+   */
+
+  --radius-6: 6px;
+  --radius-8: 8px;
+  --radius-16: 16px;
+  --radius-48: 48px;
+  --radius-circle: 50%;
+  --radius-pill: 200px;
+
+}
+
+
+/*-----------------------------------*\
+  #RESET
+\*-----------------------------------*/
+
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
-  /* Add a background color to match the chart */
-  background-color: #222;
-  color: #FFFFFF;
+  box-sizing: border-box;
+}
+
+li { list-style: none; }
+
+input,
+button {
+  background: none;
+  border: none;
+  font: inherit;
+  color: inherit;
+}
+
+
+html {
+  font-size: 10px;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-oxford-blue-2);
+  color: var(--text-shadow-blue);
+  font-family: var(--fontFamily-noto_sans);
+  font-size: 1.6rem;
+  /* line-height: var(--lineHeight-4); */
+  /* overflow-y: overlay; */
+}
+
+::-webkit-scrollbar { width: 5px; }
+
+::-webkit-scrollbar-track { background-color: transparent; }
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--bg-carolina-blue);
+  border-radius: var(--radius-pill);
+}
+
+
+/*-----------------------------------*\
+  #Settings
+\*-----------------------------------*/
+
+.hidden {
+  display: none;
+}
+
+.headline {
+  font-size: 36px;
+  padding: 20px;
+  color: var(--text-white);
+  line-height: var(--lineHeight-1);
+}
+
+.headline .span {
+  background-image: var(--gradient-3);
+  display: inline-block;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+}
+
+
+
+/*-----------------------------------*\
+  #Sections
+\*-----------------------------------*/
+
+section { padding-block: 20px; }
+
+.card {
+  background-color: var(--bg-oxford-blue);
+  border: 1px solid var(--border-prussian-blue);
+  padding: 20px;
+  margin: 20px;
+  border-radius: var(--radius-16);
+  transition: var(--transition-1);
 }
 
 .main-content {
@@ -12,46 +179,130 @@ body {
   justify-content: space-between;
 }
 
-.chart-container {
-  width: 70%;
+.chart-section {
+  width: 73%;
   padding: 20px;
 }
 
-.balance-info {
+.chart-section .chart {
+  background-color: var(--bg-oxford-blue-2);
+}
+
+.balance-section {
   width: 25%;
-  padding: 20px;
-  background-color: #363636;
-  color: #FFFFFF;
 }
 
-.balance-label {
+.balance-pnl-info {
+  text-align: center;
+  color: #fff;
+  position: relative;
+  font-size: 32px;
+}
+
+.balance-pnl-info .balance-amount,
+.balance-pnl-info .pnl-percentage {
   font-size: 24px;
-  font-weight: bold;
-  color: #d4d4d4; /* Choose your desired color */
+  color: #d4d4d4;
 }
 
-/* Style for the balance amount */
-.balance-amount {
-  font-size: 24px;
-  color: #d4d4d4; /* Choose your desired color */
-  /* You can add additional styles like font-weight, font-family, etc. */
+/*-----------------------------------*\
+  #Table
+\*-----------------------------------*/
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	overflow: hidden;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+  
+th,
+td {
+padding: 15px;
+background-color: rgba(255, 255, 255, 0.2);
+color: #d4d4d4;
 }
 
-.pnl-label {
-  font-size: 20px;
-  font-weight: bold;
-  color: #d4d4d4; /* Choose your desired color */
+th {
+text-align: left;
 }
 
-/* Style for the balance amount */
-.pnl-percentage {
-  font-size: 20px;
-  color: #d4d4d4; /* Choose your desired color */
-  /* You can add additional styles like font-weight, font-family, etc. */
+thead th {
+background-color: #5543cc85;
 }
 
-.option-box {
-  padding: 20px;
-  background-color: #222;
+tbody tr:hover {
+background-color: rgba(255, 255, 255, 0.3);
+}
+tbody td {
+position: relative;
+}
+tbody td:hover:before {
+content: "";
+position: relative;
+left: 0;
+right: 0;
+top: -9999px;
+bottom: -9999px;
+background-color: rgba(255, 255, 255, 0.2);
+z-index: -1;
+}
+
+.positionTable tbody td:nth-child(7) {
+  color: #0bd1d1;
+}
+.positionTable tbody td.positive-size {
+  color: #22CE83;
+}
+.positionTable tbody td.negative-size {
+  color: #FF5757;
+}
+.positionTable tbody td.positive-pnl {
+  color: #22CE83;
+}
+.positionTable tbody td.negative-pnl {
+  color: #FF5757;
+}
+
+.openOrderTable tbody td.buy-order {
+  color: #22CE83;
+}
+.openOrderTable tbody td.sell-order {
+  color: #FF5757;
+}
+
+/*-----------------------------------*\
+  #Button
+\*-----------------------------------*/
+
+.button-36 {
+  background-image: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
   color: #FFFFFF;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: "Inter UI","SF Pro Display",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  height: 4rem;
+  padding: 0 1.6rem;
+  text-align: center;
+  text-shadow: rgba(0, 0, 0, 0.25) 0 3px 8px;
+  transition: all .5s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-36:hover {
+  box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
+  transition-duration: .1s;
+}
+
+@media (min-width: 768px) {
+  .button-36 {
+    padding: 0 2.6rem;
+  }
 }

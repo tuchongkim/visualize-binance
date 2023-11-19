@@ -8,8 +8,9 @@ var chart = LightweightCharts.createChart(container, {
     width: container.offsetWidth,
     height: 500,
 	layout: {
-		background: { color: '#222' },
+		background: { color: 'hsla(222, 47%, 11%, 1)' },
 		textColor: '#DDD',
+        fontSize: 17,
 	},
 	grid: {
 		vertLines: { color: '#444' },

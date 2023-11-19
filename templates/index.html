@@ -4,48 +4,102 @@
     <head>
         <meta charset="UTF-8">
         <title>BinanceView</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
         <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     </head>
 
     <body>
-        <h1>{{ title }}</h1>
 
         <!-- Landing Page -->
         <section class="landing-page">
             <!-- 나중에 구현 -->
         </section>
 
-        <!-- Main Content -->
+        <h1 class="headline section-title">
+            <span class="span">{{ title }}</span>
+        </h1>
+        
         <section class="main-content">
-            <div class="chart-container">
-                <!-- Bitcoin 1min Kline Chart -->
-                <div id="chart"></div>
+            <div class="chart-section card">
+                <div class="chart-container">
+                    <div id="chart"></div>
+                </div>
+            </div>
+    
+            <div class="balance-section card">
+                <div class="balance-pnl-info">
+                    <span id="balance-label" class="balance-label">Total Balance : </span>
+                    <span id="updatedBalance" class="balance-amount"></span>
+                    <br>
+                    <br>
+                    <span id="pnl-label" class="pnl-label">PnL : </span>
+                    <span id="updatedPnl" class="pnl-percentage"></span>
+                </div>
+            </div>
+        </section>
+
+        <section class="position-openOrder card">
+            <div>
+                <button class="button-36" onclick="showTable('positionTable')">Positions</button>
+                <button class="button-36" onclick="showTable('openOrderTable')">Open Orders</button>
+            </div>
+            <div id="positionTable" class="positionTable">
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Symbol</th>
+                        <th scope="col">Leverage</th>
+                        <th scope="col">Size</th>
+                        <th scope="col">Entry Price</th>
+                        <th scope="col">Margin</th>
+                        <th scope="col">PnL</th>
+                        <th scope="col">Close Positions</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
             </div>
 
-            <div class="balance-info">
-                <!-- Total Balance and PnL-->
-                <div>
-                    <span id="balance-label" class="balance-label">Total Balance : </span>
-                    <span id="updatedBalance" class="balance-amount">$ 0.00</span>
-                </div>
-                <div>
-                    <span id="pnl-label" class="pnl-label">
-                        Pnl :
-                        <span id="updatedPnl" class="pnl-percentage"></span>
-                        %
-                    </span>
-                </div>
+            <div id="openOrderTable" class="hidden openOrderTable">
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Order Time</th>
+                        <th scope="col">Symbol</th>
+                        <th scope="col">Order Type</th>
+                        <th scope="col">Order Side</th>
+                        <th scope="col">Order Price</th>
+                        <th scope="col">Order Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
             </div>
+
         </section>
+
+        <script>
+            function showTable(tableId) {
+                // Hide all tables
+                var tables = document.querySelectorAll('div[id$="Table"]');
+                for (var i = 0; i < tables.length; i++) {
+                    tables[i].classList.add('hidden');
+                }
         
-        <!-- Option Box -->
-        <section class="option-box">
-            <!-- Position information or Open order information -->
-        </section>
+                // Show the selected table
+                var selectedTable = document.getElementById(tableId);
+                selectedTable.classList.remove('hidden');
+            }
+        </script>
 
         <script src="{{ url_for('static', filename='chart.js') }}"></script>
         <script src="{{ url_for('static', filename='balance.js') }}"></script>
         <script src="{{ url_for('static', filename='pnl.js') }}"></script>
+        <script src="{{ url_for('static', filename='position.js') }}"></script>
+        <script src="{{ url_for('static', filename='openOrder.js') }}"></script>
     </body>
 </html>
