@@ -1,105 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>BinanceView</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700;800&display=swap"
-          rel="stylesheet">
-        <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    </head>
 
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <!-- Landing Page -->
-        <section class="landing-page">
-            <!-- 나중에 구현 -->
-        </section>
+    <title>BinanceView</title>
 
-        <h1 class="headline section-title">
-            <span class="span">{{ title }}</span>
-        </h1>
-        
-        <section class="main-content">
-            <div class="chart-section card">
-                <div class="chart-container">
-                    <div id="chart"></div>
-                </div>
-            </div>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet">
+
+    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="preload" as="image" href="{{ url_for('static', filename='images/chart-9.png') }}">
+</head>
+
+<body>
+
+  <main>
+    <!-- Landing Page -->
+    <section class="hero" id="home" aria-label="home">
+      <div class="container">
+        <div class="blanck-space-1">
+
+        </div>
+
+        <div class="hero-content">
+          <h1 class="headline headline-1 section-title">
+            거래에 솔루션을 더하다, <span class="span">SolTrade</span>
+          </h1>
+          <p class="hero-text">
+            언제 사서 언제 팔아야 할지 모르는 당신을 위한 거래 자동화 및 안정적인 수익 창출 시스템
+          </p>
+        </div>
+
+        <div class="hero-banner">
+          <img src="{{ url_for('static', filename='images/chart-9.png') }}" width="327" height="490" alt="Chart-example" class="w-100">
+        </div>
+
+        <img src="{{ url_for('static', filename='images/shadow-1.svg') }}" width="500" height="800" alt="shadow-1" class="hero-bg hero-bg-1">
+        <img src="{{ url_for('static', filename='images/shadow-2.svg') }}" width="500" height="500" alt="shadow-2" class="hero-bg hero-bg-2">
+
+        <div class="blanck-space-2">
+        </div>
+      </div>
+
+    </section>
+
+    <section>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+    </section>
+
+    <h1 class="headline section-title">
+        <span class="span">{{ title }}</span>
+    </h1>
     
-            <div class="balance-section card">
-                <div class="balance-pnl-info">
-                    <span id="balance-label" class="balance-label">Total Balance : </span>
-                    <span id="updatedBalance" class="balance-amount"></span>
-                    <br>
-                    <br>
-                    <span id="pnl-label" class="pnl-label">PnL : </span>
-                    <span id="updatedPnl" class="pnl-percentage"></span>
-                </div>
+    <section class="main-content">
+        <div class="chart-section card">
+            <div class="chart-container">
+                <div id="chart"></div>
             </div>
-        </section>
+        </div>
 
-        <section class="position-openOrder card">
-            <div>
-                <button class="button-36" onclick="showTable('positionTable')">Positions</button>
-                <button class="button-36" onclick="showTable('openOrderTable')">Open Orders</button>
+        <div class="balance-section">
+            <div class="balance-pnl-info">
+                <br>
+                <br>
+                <span id="balance-label" class="balance-label">Total Balance : </span>
+                <span id="updatedBalance" class="balance-amount"></span>
+                <br>
+                <br>
+                <span id="pnl-label" class="pnl-label">PnL : </span>
+                <span id="updatedPnl" class="pnl-percentage"></span>
             </div>
-            <div id="positionTable" class="positionTable">
-                <table class="table">
-                    <thead>
-                      <tr>
-                        <th scope="col">Symbol</th>
-                        <th scope="col">Leverage</th>
-                        <th scope="col">Size</th>
-                        <th scope="col">Entry Price</th>
-                        <th scope="col">Margin</th>
-                        <th scope="col">PnL</th>
-                        <th scope="col">Close Positions</th>
-                      </tr>
-                    </thead>
-                    <tbody></tbody>
-                  </table>
-            </div>
+        </div>
+    </section>
 
-            <div id="openOrderTable" class="hidden openOrderTable">
-                <table class="table">
-                    <thead>
-                      <tr>
-                        <th scope="col">Order Time</th>
-                        <th scope="col">Symbol</th>
-                        <th scope="col">Order Type</th>
-                        <th scope="col">Order Side</th>
-                        <th scope="col">Order Price</th>
-                        <th scope="col">Order Amount</th>
-                      </tr>
-                    </thead>
-                    <tbody></tbody>
-                  </table>
-            </div>
+    <section class="position-openOrder card">
+        <div>
+            <button class="button-36" onclick="showTable('positionTable')">Positions</button>
+            <button class="button-36" onclick="showTable('openOrderTable')">Open Orders</button>
+        </div>
+        <div id="positionTable" class="positionTable">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Symbol</th>
+                    <th scope="col">Leverage</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Entry Price</th>
+                    <th scope="col">Margin</th>
+                    <th scope="col">PnL</th>
+                    <th scope="col">Close Positions</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+        </div>
 
-        </section>
+        <div id="openOrderTable" class="hidden openOrderTable">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Order Time</th>
+                    <th scope="col">Symbol</th>
+                    <th scope="col">Order Type</th>
+                    <th scope="col">Order Side</th>
+                    <th scope="col">Order Price</th>
+                    <th scope="col">Order Amount</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+        </div>
 
-        <script>
-            function showTable(tableId) {
-                // Hide all tables
-                var tables = document.querySelectorAll('div[id$="Table"]');
-                for (var i = 0; i < tables.length; i++) {
-                    tables[i].classList.add('hidden');
-                }
-        
-                // Show the selected table
-                var selectedTable = document.getElementById(tableId);
-                selectedTable.classList.remove('hidden');
+    </section>
+
+    <section>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+    </section>
+
+    <script>
+        function showTable(tableId) {
+            // Hide all tables
+            var tables = document.querySelectorAll('div[id$="Table"]');
+            for (var i = 0; i < tables.length; i++) {
+                tables[i].classList.add('hidden');
             }
-        </script>
+    
+            // Show the selected table
+            var selectedTable = document.getElementById(tableId);
+            selectedTable.classList.remove('hidden');
+        }
+    </script>
 
-        <script src="{{ url_for('static', filename='chart.js') }}"></script>
-        <script src="{{ url_for('static', filename='balance.js') }}"></script>
-        <script src="{{ url_for('static', filename='pnl.js') }}"></script>
-        <script src="{{ url_for('static', filename='position.js') }}"></script>
-        <script src="{{ url_for('static', filename='openOrder.js') }}"></script>
-    </body>
+    <script src="{{ url_for('static', filename='chart.js') }}"></script>
+    <script src="{{ url_for('static', filename='balance.js') }}"></script>
+    <script src="{{ url_for('static', filename='pnl.js') }}"></script>
+    <script src="{{ url_for('static', filename='position.js') }}"></script>
+    <script src="{{ url_for('static', filename='openOrder.js') }}"></script>
+
+  </main>
+</body>
+
 </html>

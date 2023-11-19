@@ -6,8 +6,14 @@ function updatePnl() {
             console.log(data)
             
             // Update the HTML element with the received data
-            const formattedPnl = parseFloat(data).toFixed(2) + '%';
-            document.getElementById('updatedPnl').innerHTML = formattedPnl;
+            const pnlElement = document.getElementById('updatedPnl');
+            const pnlValue = parseFloat(data).toFixed(2);
+
+            pnlElement.classList.remove('positive-pnl', 'negative-pnl');
+            pnlElement.classList.add(pnlValue > 0 ? 'positive-pnl' : 'negative-pnl');
+            const formattedPnl = pnlValue + '%';
+
+            pnlElement.innerHTML = formattedPnl;
 
             // recursive하게 updateBalance function을 호출
             setTimeout(updatePnl, 1000);  // 1초마다 update

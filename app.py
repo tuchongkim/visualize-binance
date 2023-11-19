@@ -5,12 +5,7 @@ from binance.client import Client
 
 app = Flask(__name__)
 
-client = Client(config.API_KEY, config.API_SECRET, testnet=True)
-
-
-current_time = time.time()
-
-pnl_and_time = []
+client = Client(config.API_KEY, config.API_SECRET)
 
 @app.route('/')
 def index():
@@ -40,84 +35,80 @@ def history():
 
 @app.route('/totalBalance')
 def total_balance():
-    while True:
-        try:
-            account_info = client.futures_account()
-            time.sleep(0.25)
-            total_balance = account_info['totalCrossWalletBalance']
-            unrealized_pnl = account_info['totalCrossUnPnl']
-            processed_balance = float(total_balance) + float(unrealized_pnl)
-            result = "{:.3f}".format(processed_balance)
-        except Exception as e:
-            print(e.message)
-            pass
-        return result
+    try:
+        account_info = client.futures_account()
+        time.sleep(0.5)
+        total_balance = account_info['totalCrossWalletBalance']
+        unrealized_pnl = account_info['totalCrossUnPnl']
+        processed_balance = float(total_balance) + float(unrealized_pnl)
+        result = "{:.3f}".format(processed_balance)
+    except Exception as e:
+        print(e.message)
+        pass
+    return result
 
 @app.route('/pnl')
 def pnl():
-    while True:
-        try:
-            account_info = client.futures_account()
-            time.sleep(0.25)
-            unrealized_profit = float(account_info['totalUnrealizedProfit'])
-            initial_margin = float(account_info['totalInitialMargin'])
-            roe = unrealized_profit / initial_margin * 100
-            result = "{:.3f}".format(roe)
-        except Exception as e:
-            print(e.message)
-            pass
-        return result
+    try:
+        account_info = client.futures_account()
+        time.sleep(0.5)
+        unrealized_profit = float(account_info['totalUnrealizedProfit'])
+        initial_margin = float(account_info['totalInitialMargin'])
+        roe = unrealized_profit / initial_margin * 100
+        result = "{:.3f}".format(roe)
+    except Exception as e:
+        print(e.message)
+        pass
+    return result
     
 @app.route('/position')
 def position():
-    while True:
-        try:
-            account_info = client.futures_account()
-            time.sleep(0.25)
+    try:
+        account_info = client.futures_account()
+        time.sleep(0.5)
 
-            results = []
-            for position_info in account_info["positions"]:
-                if float(position_info["positionAmt"]) != 0:
-                    symbol = position_info["symbol"]
-                    leverage = position_info["leverage"] + 'x'
-                    size = position_info["positionAmt"] + " " + symbol[:3]
-                    entry_price = float(position_info["entryPrice"])
-                    processed_entry_price = "{:.2f}".format(entry_price)
+        results = []
+        for position_info in account_info["positions"]:
+            if float(position_info["positionAmt"]) != 0:
+                symbol = position_info["symbol"]
+                leverage = position_info["leverage"] + 'x'
+                size = position_info["positionAmt"] + " " + symbol[:3]
+                entry_price = float(position_info["entryPrice"])
+                processed_entry_price = "{:.2f}".format(entry_price)
 
-                    margin = float(position_info["initialMargin"])
-                    processed_margin = "{:.2f} USDT".format(margin)
+                margin = float(position_info["initialMargin"])
+                processed_margin = "{:.2f} USDT".format(margin)
 
-                    pnl_single = float(position_info["unrealizedProfit"])
-                    roe = pnl_single / margin * 100
-                    processed_pnl = "{:.2f} USDT ({:.2f}%)".format(pnl_single, roe)
+                pnl_single = float(position_info["unrealizedProfit"])
+                roe = pnl_single / margin * 100
+                processed_pnl = "{:.2f} USDT ({:.2f}%)".format(pnl_single, roe)
 
-                    close_positions = "market"
+                close_positions = "market"
 
-                    results.append([symbol, leverage, size, processed_entry_price, processed_margin, processed_pnl, close_positions])
-            return jsonify(results)
-        except Exception as e:
-            print(e.message)
-            pass
+                results.append([symbol, leverage, size, processed_entry_price, processed_margin, processed_pnl, close_positions])
+        return jsonify(results)
+    except Exception as e:
+        print(e.message)
+        pass
 
 @app.route('/openOrder')
 def openOrder():
-        while True:
-            try:
-                open_orders = client.futures_get_open_orders()
-                time.sleep(0.25)
+    try:
+        open_orders = client.futures_get_open_orders()
+        time.sleep(0.5)
 
-                results = []
-                for open_order in open_orders:
-                    if float(open_order["origQty"]) != 0:
-                        order_time = open_order["time"]
-                        symbol = open_order["symbol"]
-                        order_type = open_order["type"]
-                        order_side = open_order["side"]
-                        order_price = open_order["price"]
-                        order_amount = open_order["origQty"] + " " + symbol[:3]
-                        results.append([order_time, symbol, order_type, order_side, order_price, order_amount])
-                return jsonify(results)
-            except Exception as e:
-                print(e.message)
-                pass
+        results = []
+        for open_order in open_orders:
+            if float(open_order["origQty"]) != 0:
+                order_time = open_order["time"]
+                symbol = open_order["symbol"]
+                order_type = open_order["type"]
+                order_side = open_order["side"]
+                order_price = open_order["price"]
+                order_amount = open_order["origQty"] + " " + symbol[:3]
+                results.append([order_time, symbol, order_type, order_side, order_price, order_amount])
+        return jsonify(results)
+    except Exception as e:
+        print(e.message)
+        pass
 
