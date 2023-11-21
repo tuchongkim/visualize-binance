@@ -52,12 +52,11 @@ def pnl():
     try:
         account_info = client.futures_account()
         time.sleep(0.5)
-        unrealized_profit = float(account_info['totalUnrealizedProfit'])
-        initial_margin = float(account_info['totalInitialMargin'])
-        if initial_margin == 0:
-            roe = 0
-        else:
-            roe = unrealized_profit / initial_margin * 100
+        total_balance = account_info['totalCrossWalletBalance']
+        unrealized_pnl = account_info['totalCrossUnPnl']
+        initial_margin = float(180)
+        processed_balance = float(total_balance) + float(unrealized_pnl)
+        roe = (processed_balance - initial_margin) / initial_margin * 100
         result = "{:.3f}".format(roe)
     except Exception as e:
         print(e.message)
