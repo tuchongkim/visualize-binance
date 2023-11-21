@@ -8,7 +8,7 @@
 2. node.js
 3. flask
 
-## Ste2
+## Step2
 
 ### 기능 목록
 
@@ -17,8 +17,7 @@
 3. 현재 가지고 있는 position을 아래쪽에 보여주기 (O)
 4. 옵션을 추가해서 open order를 볼 수 있게 하기 (O)
 
-## Step3
+## Under the hood
 
-### Landing page
-
-- 괜찮은 free template을 다운받아서 적용
+- Binance Futures Sample Trading Bot
+- Uses GLFT Market Making Model

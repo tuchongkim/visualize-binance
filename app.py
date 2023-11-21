@@ -54,7 +54,10 @@ def pnl():
         time.sleep(0.5)
         unrealized_profit = float(account_info['totalUnrealizedProfit'])
         initial_margin = float(account_info['totalInitialMargin'])
-        roe = unrealized_profit / initial_margin * 100
+        if initial_margin == 0:
+            roe = 0
+        else:
+            roe = unrealized_profit / initial_margin * 100
         result = "{:.3f}".format(roe)
     except Exception as e:
         print(e.message)
