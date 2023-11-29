@@ -6,17 +6,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>BinanceView</title>
+    <title>SolTrade</title>
 
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
+    <!-- Lightweight Charts -->
     <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+
+    <!-- CSS Style -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-    <link rel="preload" as="image" href="{{ url_for('static', filename='images/chart-9.png') }}">
+    <!-- Preload Image -->
+    <link rel="preload" as="image" href="{{ url_for('static', filename='images/chart-image.png') }}">
 </head>
 
 <body>
@@ -25,9 +29,7 @@
     <!-- Landing Page -->
     <section class="hero" id="home" aria-label="home">
       <div class="container">
-        <div class="blanck-space-1">
-
-        </div>
+        <div class="blank-space-1"></div>
 
         <div class="hero-content">
           <h1 class="headline headline-1 section-title">
@@ -39,26 +41,16 @@
         </div>
 
         <div class="hero-banner">
-          <img src="{{ url_for('static', filename='images/chart-9.png') }}" width="327" height="490" alt="Chart-example" class="w-100">
+          <img src="{{ url_for('static', filename='images/chart-image.png') }}" width="327" height="490" alt="Chart-example" class="width-100">
         </div>
-
         <img src="{{ url_for('static', filename='images/shadow-1.svg') }}" width="500" height="800" alt="shadow-1" class="hero-bg hero-bg-1">
         <img src="{{ url_for('static', filename='images/shadow-2.svg') }}" width="500" height="500" alt="shadow-2" class="hero-bg hero-bg-2">
 
-        <div class="blanck-space-2">
-        </div>
+        <div class="blank-space-2"></div>
       </div>
-
     </section>
 
-    <section>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-    </section>
-
+    <!-- Binance View Page -->
     <h1 class="headline section-title">
         <span class="span">{{ title }}</span>
     </h1>
@@ -69,7 +61,6 @@
                 <div id="chart"></div>
             </div>
         </div>
-
         <div class="balance-section">
             <div class="balance-pnl-info">
                 <br>
@@ -105,7 +96,6 @@
                 <tbody></tbody>
               </table>
         </div>
-
         <div id="openOrderTable" class="hidden openOrderTable">
             <table class="table">
                 <thead>
@@ -121,44 +111,16 @@
                 <tbody></tbody>
               </table>
         </div>
-
     </section>
 
-    <section>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-    </section>
+    <!-- Blank Space -->
+    <section class="blank-space-3"></section>
 
-    <script>
-        function showTable(tableId) {
-            // Hide all tables
-            var tables = document.querySelectorAll('div[id$="Table"]');
-            for (var i = 0; i < tables.length; i++) {
-                tables[i].classList.add('hidden');
-            }
-    
-            // Show the selected table
-            var selectedTable = document.getElementById(tableId);
-            selectedTable.classList.remove('hidden');
-        }
-    </script>
-
+    <!-- Javascript Files -->
     <script src="{{ url_for('static', filename='chart.js') }}"></script>
     <script src="{{ url_for('static', filename='balance.js') }}"></script>
     <script src="{{ url_for('static', filename='pnl.js') }}"></script>
+    <script src="{{ url_for('static', filename='table.js') }}"></script>
     <script src="{{ url_for('static', filename='position.js') }}"></script>
     <script src="{{ url_for('static', filename='openOrder.js') }}"></script>
 

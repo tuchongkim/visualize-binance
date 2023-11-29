@@ -1,2 +1,4 @@
-python-binance
+python-binance >= 1.0.19
+nodejs
+wscat
 flask

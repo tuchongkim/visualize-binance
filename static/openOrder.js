@@ -41,7 +41,7 @@ function openOrderInfo() {
             });
             
             // recursive하게 positionInfo function을 호출
-            setTimeout(openOrderInfo, 1000);  // 1초마다 update
+            setTimeout(openOrderInfo, 1500);  // 1.5초마다 update
         });
 }
 

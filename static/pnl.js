@@ -16,7 +16,7 @@ function updatePnl() {
             pnlElement.innerHTML = formattedPnl;
 
             // recursive하게 updateBalance function을 호출
-            setTimeout(updatePnl, 1000);  // 1초마다 update
+            setTimeout(updatePnl, 1500);  // 1.5초마다 update
         });
 }
 

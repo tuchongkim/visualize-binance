@@ -10,7 +10,7 @@ function updateBalance() {
             document.getElementById('updatedBalance').innerHTML = formattedBalance;
 
             // recursive하게 updateBalance function을 호출
-            setTimeout(updateBalance, 1000);  // 1초마다 update
+            setTimeout(updateBalance, 1500);  // 1.5초마다 update
         });
 }
 
