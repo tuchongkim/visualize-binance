@@ -15,7 +15,7 @@
 
 이런 고민을 해결해드리기 위해 저희는 최적의 매수/매도 호가를 산출하여 자동으로 거래를 해주는 시스템을 개발했습니다.
 
-<img src="./static/images/readme-image.png" width="800" height="450">
+<img src="./web/static/images/readme-image.png" width="800" height="450">
 
 ## 📌 프로젝트 구성
 
