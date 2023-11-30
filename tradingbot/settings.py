@@ -82,4 +82,4 @@ LOG_LEVEL = logging.INFO
 ORDERID_PREFIX = "bot_bf_"
 
 # If any of these files (and this file) changes, reload the bot.
-WATCHED_FILES = [join('tradingbot', 'custom_strategy.py'), join('tradingbot', 'settings.py')]
+WATCHED_FILES = [join('tradingbot', 'myStrategy.py'), join('tradingbot', 'settings.py')]
