@@ -1,4 +1,10 @@
-# Visualizing Binance Data
+# SolTrade : 마켓 메이킹 모델을 이용한 거래 자동화 시스템
+
+![Static Badge](https://img.shields.io/badge/project-KHU-<color>)
+![Static Badge](https://img.shields.io/badge/version-1.0.0-informational)
+![Static Badge](https://img.shields.io/badge/python-3.9|3.10-lightblue)
+
+> 2023학년도 2학기 경희대학교 데이터분석캡스톤디자인 프로젝트 입니다.
 
 ## Step1
 
