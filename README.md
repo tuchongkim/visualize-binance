@@ -15,7 +15,7 @@
 
 이런 고민을 해결해드리기 위해 저희는 최적의 매수/매도 호가를 산출하여 자동으로 거래를 해주는 시스템을 개발했습니다.
 
-<img src="./web/static/images/readme-image.png" width="800" height="450">
+<img src="./web/static/images/readme-image-1.png" width="700" height="380">
 
 ## 📌 프로젝트 구성
 
@@ -30,11 +30,15 @@ Binance에서 제공하는 API를 활용하여 실시간 틱데이터를 받아�
 
 자세한 내용은 아래 README를 참고해주시기 바랍니다.
 
+- [마켓 메이킹 모델: tradingbot](https://github.com/tuchongkim/visualize-binance/tree/main/tradingbot)
+
 ### 🖥️ 실시간 주문 내역 및 포지션 확인
 
 flask, html, css, javascript를 기반으로 실시간 주문 내역을 확인할 수 있는 웹페이지를 만들었습니다.
 
 자세한 내용은 아래 README를 참고해주시기 바랍니다.
+
+- [웹페이지: SolTrade](https://github.com/tuchongkim/visualize-binance/tree/main/web)
 
 ## References
 
