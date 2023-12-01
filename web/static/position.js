@@ -44,7 +44,7 @@ function positionInfo() {
             });
             
             // recursive하게 positionInfo function을 호출
-            setTimeout(positionInfo, 1500);  // 1.5초마다 update
+            setTimeout(positionInfo, 2000);  // 2초마다 update
         });
 }
 

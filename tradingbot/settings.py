@@ -67,7 +67,7 @@ LOOP_INTERVAL = 5
 # Wait times between orders / errors
 API_REST_INTERVAL = 1
 API_ERROR_INTERVAL = 60
-TIMEOUT = 600
+TIMEOUT = 60000
 
 # Available levels: logging.(DEBUG|INFO|WARN|ERROR)
 LOG_LEVEL = logging.INFO

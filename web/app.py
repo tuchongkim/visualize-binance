@@ -20,7 +20,7 @@ def index():
 def history():
     try:
         current_utc_date = datetime.utcnow()
-        start_date = current_utc_date - timedelta(days=10)
+        start_date = current_utc_date - timedelta(days=5)
         start_date_str = start_date.strftime("%d %b, %Y")
         candlesticks = client.futures_historical_klines("BTCUSDT", Client.KLINE_INTERVAL_1MINUTE, start_date_str)
         

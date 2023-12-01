@@ -29,8 +29,8 @@ class CustomOrderManager(OrderManager):
         adj1 = 2
         adj2 = 0.05
         order_qty = 0.003
-        max_position = 0.12
-        grid_num = 4
+        max_position = 0.03
+        grid_num = 3
 
         def compute_coeff(xi, gamma, delta, A, k):
             inv_k = np.divide(1, k)
@@ -70,7 +70,7 @@ class CustomOrderManager(OrderManager):
         ask_price = np.ceil(ask_price / grid_interval) * grid_interval
 
         # my modification
-        price_range = 80 # eg. 200
+        price_range = 90 # eg. 200
         order_interval = price_range / grid_num  # eg. 20 (if grid_num = 10)
         interval_tick = int(round(order_interval / tick_size)) # eg. 200
         ##############################################################################

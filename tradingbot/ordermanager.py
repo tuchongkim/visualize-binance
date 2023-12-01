@@ -163,8 +163,8 @@ class OrderManager:
                     # sys.stdout.flush()
                     # self.check_file_change()
                     await asyncio.sleep(settings.LOOP_INTERVAL)
-                    if int(time.time()) - curr >= 630:
-                        await self.place_orders()
+                    # if int(time.time()) - curr >= 630:
+                    await self.place_orders()
                     #if int(time.time()) - curr > 630:
                     
 
