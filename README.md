@@ -19,7 +19,7 @@
 
 ## 📌 프로젝트 구성
 
-### 🪙 거래 플랫폼 및 종목
+### 💰 거래 플랫폼 및 종목
 
 해외 코인 거래소 Binance를 이용해서 BTCUSDT 선물 거래를 진행했습니다.
 
@@ -40,11 +40,15 @@ flask, html, css, javascript를 기반으로 실시간 주문 내역을 확인�
 
 - [웹페이지: SolTrade](https://github.com/tuchongkim/visualize-binance/tree/main/web)
 
+<br/>
+
 ## References
 
 - [sample-trading-bot](https://github.com/nkaz001/sample-trading-bot) by [nkaz001]
 - [hftbacktest](https://github.com/nkaz001/hftbacktest) by [nkaz001]
 - 「Dealing with the Inventory Risk. A solution to the market making problem」 Olivier Guéant, Charles-Albert Lehalle, Joaquin Fernandez Tapia (2012)
+
+<br/>
 
 ## 팀 소개
 
