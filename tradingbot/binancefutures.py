@@ -254,10 +254,13 @@ class BinanceFutures:
         # https://fapi.binance.com/fapi/v1/batchOrders?symbol=btcusdt&origClientOrderIdList=%5B%22bot_bf_PsAp344T5u3PBam7OwDxg%22%2C+%22bot_bf_9kAsKvZKSVAj8fCBgPkQ%22%5D&timestamp=1700495935565&recvWindow=10000&signature=bd2b1ad08c0e80ccce1291dadcc41a3ebf290bbe4d01fc824185fb354a40c0f5
         if verb == 'DELETE':
             try:
+                order_list = []
                 temp = ''
-                for item in query['origClientOrderIdList']:
-                    temp.join(item)
-                print(temp)
+                temp += query['origClientOrderIdList'][0]
+                for i in range(1, len(query['origClientOrderIdList'])):
+                    temp += ',' + str(query['origClientOrderIdList'][i])
+                order_list.append(temp)
+                query['origClientOrderIdList'] = order_list
             except:
                 pass
             
