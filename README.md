@@ -17,9 +17,11 @@
 
 <img src="./web/static/images/readme-image-1.png" width="700" height="380">
 
+<br/>
+
 ## 📌 프로젝트 구성
 
-### 💰 거래 플랫폼 및 종목
+### 🪙 거래 플랫폼 및 종목
 
 해외 코인 거래소 Binance를 이용해서 BTCUSDT 선물 거래를 진행했습니다.
 
