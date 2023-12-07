@@ -25,10 +25,10 @@ class CustomOrderManager(OrderManager):
         A = self.binance_futures.A
         k = self.binance_futures.k
         volatility = self.binance_futures.volatility
-        gamma = 0.05
-        delta = 0.004
-        adj1 = 2
-        adj2 = 0.05
+        gamma = 0.3
+        delta = 3
+        adj1 = 1.5
+        adj2 = 10
 
         def compute_coeff(xi, gamma, delta, A, k):
             inv_k = np.divide(1, k)
