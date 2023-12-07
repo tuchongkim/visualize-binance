@@ -141,7 +141,7 @@ class OrderManager:
         logging.basicConfig(level=settings.LOG_LEVEL)
         ioloop = asyncio.get_event_loop()
 
-        curr = int(time.time())
+        self.start_time = int(time.time())
         # self.api_key = ""
         # self.api_secret = ""
 
@@ -164,7 +164,7 @@ class OrderManager:
                     # self.check_file_change()
 
                     await asyncio.sleep(settings.LOOP_INTERVAL)
-                    # if int(time.time()) - curr > 630:
+                    # if int(time.time()) - self.start_time > 630:
                     await self.place_orders()
                     
 

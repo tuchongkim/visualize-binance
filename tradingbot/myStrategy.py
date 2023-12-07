@@ -1,6 +1,5 @@
 import logging
 import sys
-import time
 
 import pandas as pd
 import numpy as np
@@ -14,7 +13,6 @@ class CustomOrderManager(OrderManager):
 
     async def place_orders(self):
         # implement your custom strategy here
-        # order_qty_dollar = 100
         tick_size = 0.1
         tick_ub = 100000
 

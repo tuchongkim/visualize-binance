@@ -64,7 +64,7 @@ def pnl():
 
         total_balance = account_info['totalCrossWalletBalance']
         unrealized_pnl = account_info['totalCrossUnPnl']
-        initial_margin = float(150)
+        initial_margin = float(146.8)
         processed_balance = float(total_balance) + float(unrealized_pnl)
         roe = (processed_balance - initial_margin) / initial_margin * 100
         pnl_response = "{:.3f}".format(roe)

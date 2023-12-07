@@ -249,7 +249,7 @@ class BinanceFutures:
         if query is None:
             query = {}  
 
-        query['recvWindow'] = str(30000)
+        query['recvWindow'] = str(20000)
         query['timestamp'] = str(int(time.time() * 1000))
         query = urllib.parse.urlencode(query)
         query = query.replace('%27', '%22')
@@ -501,12 +501,14 @@ class BinanceFutures:
             print("Keep Alive Cancel Successful")
             self.depth.clear()
             print("Depth Clear Successful")
-            print("Trying close_disconnection()")
-            await self.close_disconnection()
+            print("Trying ws close()")
+            await self.cancel_all_orders()
+            await self.ws.close()
             print("close Successful")
-            await asyncio.sleep(2)
-            print("Asyncio Sleep Successful.\nAttempting new Connection")
-            asyncio.create_task(self.connect())
+            if not self.closed:
+                await asyncio.sleep(5)
+                print("Asyncio Sleep Successful.\nAttempting new Connection")
+                asyncio.create_task(self.connect())
 
     async def close(self):
         await self.cancel_all_orders()
