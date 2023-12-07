@@ -9,13 +9,14 @@ import urllib.parse
 import uuid
 import pandas as pd
 import numpy as np
+
 import aiohttp
 from aiohttp import ClientSession, WSMsgType
 from yarl import URL
 
 
 class BinanceFutures:
-    def __init__(self, api_key, api_secret, symbol='btcusdt', testnet=False, orderIDPrefix='bot_bf_', postOnly=False, timeout=999999999999):
+    def __init__(self, api_key, api_secret, symbol='btcusdt', testnet=False, orderIDPrefix='bot_tc_', postOnly=False, timeout=10000):
         self.api_key = api_key
         self.api_secret = api_secret
         self.symbol = symbol
@@ -39,7 +40,6 @@ class BinanceFutures:
         self.k = 0
         self.volatility = 0
         self.time_snap = 0
-        self.order_counted_list = np.empty(1_000_000)
         self.record_timestamp = time.time()
         self.initial_timestamp = time.time()
 
@@ -48,7 +48,7 @@ class BinanceFutures:
 
     async def __on_message(self, message):
         message = json.loads(message)
-        logging.debug(message)
+        # logging.debug(message)
         data = message['data']
         evt = data['e']
         if evt == 'listenKeyExpired':
@@ -63,7 +63,7 @@ class BinanceFutures:
                     if position['s'].upper() == self.symbol.upper():
                         self.running_qty = position['pa']
         elif evt == 'ORDER_TRADE_UPDATE':
-            timestamp = data['E']
+            # timestamp = data['E']
             order = data['o']
             order_ = {
                 'symbol': order['s'],
@@ -153,10 +153,10 @@ class BinanceFutures:
                 self.market_arrival_depth_list.append([exch_timestamp, market_order_arrival_depth])
 
                 # Remove old entries to keep data for a certain period (e.g., 10 minutes)
-                self.calculate_intensity_and_volatility()
-                self.trim_data_lists()
+                await self.calculate_intensity_and_volatility()
+                await self.trim_data_lists()
 
-    def trim_data_lists(self):
+    async def trim_data_lists(self):
         # Keep data for a certain period (e.g., 10 minutes)
         ten_minutes_ago = int(time.time() * 1000) - 600_000
         while self.mid_price_change_list and self.mid_price_change_list[0][0] < ten_minutes_ago:
@@ -166,7 +166,7 @@ class BinanceFutures:
         while self.market_arrival_depth_list and self.market_arrival_depth_list[0][0] < ten_minutes_ago:
             self.market_arrival_depth_list.pop(0)
 
-    def calculate_intensity_and_volatility(self):
+    async def calculate_intensity_and_volatility(self):
         #--------------------------------------------------------
         # Calibrates A, k and calculates the market volatility.
         current_time = int(time.time() * 1000) # in miliseconds
@@ -247,15 +247,10 @@ class BinanceFutures:
             max_retries = 0 if verb in ['POST', 'PUT'] else 10
 
         if query is None:
-            query = {}
+            query = {}  
 
-        # ['bot_bf_PsAp344T5u3PBam7OwDxg', 'bot_bf_9kAsKvZKSVAj8fCBgPkQ']
-        # ========================================
-        # https://fapi.binance.com/fapi/v1/batchOrders?symbol=btcusdt&origClientOrderIdList=%5B%22bot_bf_PsAp344T5u3PBam7OwDxg%22%2C+%22bot_bf_9kAsKvZKSVAj8fCBgPkQ%22%5D&timestamp=1700495935565&recvWindow=10000&signature=bd2b1ad08c0e80ccce1291dadcc41a3ebf290bbe4d01fc824185fb354a40c0f5
-            
-
-        query['timestamp'] = str(int(time.time() * 1000) - 1000)
-        # query['recvWindow'] = str(10000)
+        query['recvWindow'] = str(30000)
+        query['timestamp'] = str(int(time.time() * 1000))
         query = urllib.parse.urlencode(query)
         query = query.replace('%27', '%22')
         query = query.replace('+', '')
@@ -279,19 +274,16 @@ class BinanceFutures:
                 url = URL('https://testnet.binancefuture.com/fapi%s?%s&signature=%s' % (path, query, signature), encoded=True)
             else:
                 url = URL('https://fapi.binance.com/fapi%s?%s&signature=%s' % (path, query, signature), encoded=True)
-                # print(url)
-                # print('----------------------------------------------------------------------------------------')
-            logging.debug("sending req to %s: %s" % (url, json.dumps(query or query or '')))
+
+            # logging.debug("sending req to %s: %s" % (url, json.dumps(query or query or '')))
             response = await self.client.request(verb, url, headers={'X-MBX-APIKEY': self.api_key}, timeout=timeout)
+
+            # Debug Response
+            if verb != 'GET':
+                logging.debug(await response.json())
+
             # Make non-200s throw
-            
             response.raise_for_status()
-
-        # resp = await self.__curl_binancefutures(verb='POST', path='/v1/batchOrders', query={'batchOrders': orders},
-                                                    #max_retries=10)
-
-        #url=URL('https://fapi.binance.com/fapi/v1/order?price=37235&quantity=0.01&side=BUY&newClientOrderId=bot_bf_PC5vDMjQUCLeoegzAK61Q&symbol=btcusdt
-        #&type=LIMIT&timeInForce=GTX&timestamp=1700468443359&signature=e8c3c4f1ae16a6d77a7fe1dedd8a9b462224d8f7753b0976cb140cdf9c0788e6'):
 
         except aiohttp.ClientResponseError as e:
             # 401 - Auth error. This is fatal.
@@ -367,7 +359,7 @@ class BinanceFutures:
     async def create_orders(self, order):
         """Create a single order."""
         order['newClientOrderId'] = self.orderIDPrefix + base64.b64encode(uuid.uuid4().bytes).decode('utf8').replace('+', '').replace('/', '').rstrip('=\n')
-        order['symbol'] = self.symbol
+        order['symbol'] = self.symbol.upper()
         order['side'] = order['side'].upper()
         order['type'] = 'LIMIT'
         if self.postOnly:
@@ -380,7 +372,7 @@ class BinanceFutures:
         self.open_orders_ws[order['newClientOrderId']] = pending_order
         try:
             resp = await self.__curl_binancefutures(verb='POST', path='/v1/order', query=order,
-                                                    max_retries=10)
+                                                    max_retries=0)
             order_id = resp['clientOrderId']
             order = self.open_orders_ws[order_id]
             if 'updateTime' not in order or order['updateTime'] < resp['updateTime']:
@@ -399,7 +391,7 @@ class BinanceFutures:
         pending_orders = []
         for order in orders:
             order['newClientOrderId'] = self.orderIDPrefix + base64.b64encode(uuid.uuid4().bytes).decode('utf8').replace('+', '').replace('/', '').rstrip('=\n')
-            order['symbol'] = self.symbol
+            order['symbol'] = self.symbol.upper()
             order['side'] = order['side'].upper()
             order['type'] = 'LIMIT'
             if self.postOnly:
@@ -413,7 +405,7 @@ class BinanceFutures:
             pending_orders.append(pending_order)
         try:
             resp = await self.__curl_binancefutures(verb='POST', path='/v1/batchOrders', query={'batchOrders': orders},
-                                                    max_retries=10)
+                                                    max_retries=0)
             for item in resp:
                 order_id = item['clientOrderId']
                 order = self.open_orders_ws[order_id]
@@ -431,8 +423,8 @@ class BinanceFutures:
         if len(origClientOrderIdList) > 10:
             raise Exception('The number of orders cannot exceed 10.')
         resp = await self.__curl_binancefutures(verb='DELETE', path='/v1/batchOrders',
-                                                query={'symbol': self.symbol, 'origClientOrderIdList': origClientOrderIdList},
-                                                max_retries=10)
+                                                query={'symbol': self.symbol.upper(), 'origClientOrderIdList': origClientOrderIdList},
+                                                max_retries=0)
         for item in resp:
             if 'code' in item:
                 if item['code'] != -2011:
@@ -445,7 +437,7 @@ class BinanceFutures:
         return resp
 
     async def cancel_all_orders(self):
-        resp = await self.__curl_binancefutures(verb='DELETE', path='/v1/allOpenOrders', query={'symbol': self.symbol})
+        resp = await self.__curl_binancefutures(verb='DELETE', path='/v1/allOpenOrders', query={'symbol': self.symbol.upper()})
         # if resp['code'] == '200':
         #     now = time.time()
         #     for order_id, order in self.open_orders_ws.items():
@@ -506,12 +498,15 @@ class BinanceFutures:
         finally:
             logging.info('WS Disconnected.')
             self.keep_alive.cancel()
-            await self.keep_alive
-            self.ws = None
+            print("Keep Alive Cancel Successful")
             self.depth.clear()
-            if not self.closed:
-                await asyncio.sleep(1)
-                asyncio.create_task(self.connect())
+            print("Depth Clear Successful")
+            print("Trying close_disconnection()")
+            await self.close_disconnection()
+            print("close Successful")
+            await asyncio.sleep(2)
+            print("Asyncio Sleep Successful.\nAttempting new Connection")
+            asyncio.create_task(self.connect())
 
     async def close(self):
         await self.cancel_all_orders()
@@ -520,6 +515,16 @@ class BinanceFutures:
             await self.ws.close()
         await self.client.close()
         await asyncio.sleep(1)
+    
+    async def close_disconnection(self):
+        await self.cancel_all_orders()
+        if self.ws is not None:
+            await self.ws.close()
+        await asyncio.sleep(5)
+        await self.client.close()
+        self.client = aiohttp.ClientSession(headers={ 'Content-Type': 'application/json' })
+        await asyncio.sleep(1)
+
 
     async def __get_marketdepth_snapshot(self):
         data = await self.__curl_binancefutures(verb='GET', path='/v1/depth', query={'symbol': self.symbol, 'limit': 1000})

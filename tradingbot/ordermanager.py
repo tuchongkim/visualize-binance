@@ -34,15 +34,15 @@ class OrderManager:
            We start from the closest orders outward."""
 
         existing_orders = await self.binance_futures.open_orders()
-        ws_existing_orders = self.binance_futures.open_orders_active().values()
-        matched = 0
-        for order in existing_orders:
-            for ws_order in ws_existing_orders:
-                if order['clientOrderId'] == ws_order['clientOrderId']:
-                    matched += 1
-                    break
-        #assert matched == len(existing_orders)
-        existing_orders = self.binance_futures.open_orders_active().values()
+        # ws_existing_orders = self.binance_futures.open_orders_active().values()
+        # matched = 0
+        # for order in existing_orders:
+        #     for ws_order in ws_existing_orders:
+        #         if order['clientOrderId'] == ws_order['clientOrderId']:
+        #             matched += 1
+        #             break
+        # assert matched == len(existing_orders)
+        # existing_orders = self.binance_futures.open_orders_active().values()
 
         for order in buy_orders:
             order['price'] = str(order['price'])
@@ -102,10 +102,9 @@ class OrderManager:
 
         if cancel_first:
             response = await asyncio.gather(*cancel_task)
-            logging.debug(response)
-            time.sleep(1)
+            # logging.debug(response)
             response = await asyncio.gather(*create_task)
-            logging.debug(response)
+            # logging.debug(response)
         else:
             response = await asyncio.gather(*(cancel_task + create_task))
             logging.debug(response)
@@ -141,12 +140,13 @@ class OrderManager:
     def run_loop(self):
         logging.basicConfig(level=settings.LOG_LEVEL)
         ioloop = asyncio.get_event_loop()
+
         curr = int(time.time())
-        self.api_key = ""
-        self.api_secret = ""
+        # self.api_key = ""
+        # self.api_secret = ""
 
         try:
-            self.binance_futures = BinanceFutures(self.api_key, self.api_secret, settings.SYMBOL, settings.TESTNET, postOnly=settings.POST_ONLY)
+            self.binance_futures = BinanceFutures(settings.API_KEY, settings.API_SECRET, settings.SYMBOL, settings.TESTNET, postOnly=settings.POST_ONLY)
             self.run = True
             self.tick_size = None
 
@@ -162,10 +162,10 @@ class OrderManager:
                     # sys.stdout.write("-----\n")
                     # sys.stdout.flush()
                     # self.check_file_change()
+
                     await asyncio.sleep(settings.LOOP_INTERVAL)
-                    # if int(time.time()) - curr >= 630:
+                    # if int(time.time()) - curr > 630:
                     await self.place_orders()
-                    #if int(time.time()) - curr > 630:
                     
 
             async def stop():

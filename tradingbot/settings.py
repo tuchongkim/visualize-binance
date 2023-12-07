@@ -8,8 +8,8 @@ import logging
 TESTNET = False
 
 # The Binance Futures API requires permanent API keys.
-api_key = ""
-api_secret = ""
+API_KEY = ""
+API_SECRET = ""
 
 ########################################################################################################################
 # Target
@@ -66,11 +66,11 @@ LOOP_INTERVAL = 5
 
 # Wait times between orders / errors
 API_REST_INTERVAL = 1
-API_ERROR_INTERVAL = 60
-TIMEOUT = 60000
+API_ERROR_INTERVAL = 30
+TIMEOUT = 10000
 
 # Available levels: logging.(DEBUG|INFO|WARN|ERROR)
-LOG_LEVEL = logging.INFO
+LOG_LEVEL = logging.DEBUG
 
 # To uniquely identify orders placed by this bot, the bot sends a ClOrdID (Client order ID) that is attached
 # to each order so its source can be identified. This keeps the market maker from cancelling orders that are
@@ -79,7 +79,7 @@ LOG_LEVEL = logging.INFO
 # If you are running multiple bots on the same symbol, give them unique ORDERID_PREFIXes - otherwise they will
 # cancel each others' orders.
 # Max length is 13 characters.
-ORDERID_PREFIX = "bot_bf_"
+ORDERID_PREFIX = "bot_tc_"
 
 # If any of these files (and this file) changes, reload the bot.
 WATCHED_FILES = [join('tradingbot', 'myStrategy.py'), join('tradingbot', 'settings.py')]

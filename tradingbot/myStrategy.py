@@ -18,19 +18,17 @@ class CustomOrderManager(OrderManager):
         tick_size = 0.1
         tick_ub = 100000
 
-        # A = 3.8325354556799747
-        # k = 0.018222652183273957
-        # volatility = 26.261791655773298
+        max_position = 0.012
+        grid_num = 4
+        order_qty = 0.004
+
         A = self.binance_futures.A
         k = self.binance_futures.k
         volatility = self.binance_futures.volatility
         gamma = 0.05
-        delta = 0.003
+        delta = 0.004
         adj1 = 2
         adj2 = 0.05
-        order_qty = 0.003
-        max_position = 0.03
-        grid_num = 3
 
         def compute_coeff(xi, gamma, delta, A, k):
             inv_k = np.divide(1, k)
@@ -70,7 +68,7 @@ class CustomOrderManager(OrderManager):
         ask_price = np.ceil(ask_price / grid_interval) * grid_interval
 
         # my modification
-        price_range = 90 # eg. 200
+        price_range = 120 # eg. 200
         order_interval = price_range / grid_num  # eg. 20 (if grid_num = 10)
         interval_tick = int(round(order_interval / tick_size)) # eg. 200
         ##############################################################################
@@ -82,14 +80,14 @@ class CustomOrderManager(OrderManager):
 
         x = float(self.binance_futures.running_qty) / max_position # 수정 (mid 삭제)
 
-        if x <= 1:
+        if x < 1:
             max_bid_order_tick = int(round(bid_order_begin / tick_size))
             max_bid_order_tick = int(floor(max_bid_order_tick / interval_tick))
             min_bid_order_tick = int(floor(lb_price / tick_size / interval_tick))
         else:
             # Cancel all bid orders if the position exceeds the maximum position.
             min_bid_order_tick = max_bid_order_tick = 0
-        if x >= -1:
+        if x > -1:
             min_ask_order_tick = int(round(ask_order_begin / tick_size))
             min_ask_order_tick = int(ceil(min_ask_order_tick / interval_tick))
             max_ask_order_tick = int(ceil(ub_price / tick_size / interval_tick))
@@ -102,12 +100,12 @@ class CustomOrderManager(OrderManager):
         for tick in range(max_bid_order_tick, min_bid_order_tick, -1):
             bid_price_tick = tick * interval_tick
             bid_price = bid_price_tick * tick_size
-            # round(order_qty_dollar / bid_price, 3) -> minimum qty (0.003)
+            # round(order_qty_dollar / bid_price, 3) -> order_qty
             buy_orders.append({'price': '%1.f' % bid_price, 'quantity': order_qty, 'side': "Buy"})
         for tick in range(min_ask_order_tick, max_ask_order_tick, 1):
             ask_price_tick = tick * interval_tick
             ask_price = ask_price_tick * tick_size
-            # round(order_qty_dollar / bid_price, 3) -> minimum qty (0.003)
+            # round(order_qty_dollar / bid_price, 3) -> order_qty
             sell_orders.append({'price': '%1.f' % ask_price, 'quantity': order_qty, 'side': "Sell"})
 
         try:
