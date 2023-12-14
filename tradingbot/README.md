@@ -62,3 +62,5 @@ python -m tradingbot.myStrategy
 10분이 지나면 주문이 자동으로 들어가는 것을 확인할 수 있습니다.
 
 ### 실행 결과 예시
+
+![실행 결과](image.png)
